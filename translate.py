@@ -41,7 +41,7 @@ def translate_sequence(rna_sequence, genetic_code):
 #    return ''.join(protein)
 
     rna_sequence=rna_sequence.upper()
-    protein =""
+    protein = ""
     for i in range(0, len(rna_sequence), 3):
         codon = rna_sequence[i: i+3]
         amino_acid = genetic_code.get(codon, '*')
@@ -96,7 +96,61 @@ def get_all_translations(rna_sequence, genetic_code):
         A list of strings; each string is an sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+##the find method will give you the first index position (int) of the codon you're referring to 
+#    start_codon = rna_sequence.find('AUG')
+#
+#    ##You create a string of the starting nucleotide (A in this case) and rest of the sequence 
+#    seq_start = rna_sequence[int(start_codon):]
+#    ##This selects the first nucleotide in codon/starting with with zero, selects for multiples of 3; n are multiples of 3 starting with 0
+#    protein_seq = ''
+#    for n in (0, len(seq_start), 3):
+#        if seq_start[n:n+3] in genetic_code:
+#            protein_seq += genetic_code[seq_start[n:n+3]]
+#    return protein_seq
+
+    rna_sequence=rna_sequence.upper()
+    start = rna_sequence.find('AUG')
+    protein = []
+    i = start
+    while i < len(rna_sequence)-2:
+        codon = rna_sequence[i:i+3]
+        amino_acid = genetic_code[codon]
+        if amino_acid == '*':
+            break
+        i += 3
+        protein.append(amino_acid)
+    return ''.join(protein)
+
+#    rna_sequence=rna_sequence.upper()
+#    protein = ""
+#    for i in range(0, len(rna_sequence), 3):
+#        codon = rna_sequence[i: i+3]
+#        amino_acid = genetic_code.get(codon, '*')
+#        if amino_acid != '*':
+#            protein += amino_acid
+#        else:
+#            break
+#    return protein
+
+#    for i in range(0, len(rna_sequence), 3):
+#        codon = rna_sequence[i: i+3]
+#        amino_acid = genetic_code.get(codon, '*')
+#        if amino_acid != '*':
+#            protein += amino_acid
+#        else:
+#            break
+#    return protein
+
+#    peptide = []
+#    i = start
+#    while i < len(rna_sequence)-2:
+#        codon = rna_sequence[i:i+3]
+#        a = genetic_code[codon]
+#        if a == '*' :
+#            break
+#        i += 3
+#        peptide.append(a)
+#    return ''.join(peptide)
 
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
