@@ -108,22 +108,32 @@ def get_all_translations(rna_sequence, genetic_code):
 #            protein_seq += genetic_code[seq_start[n:n+3]]
 #    return protein_seq
 
-    rna_sequence=rna_sequence.upper()
-    start = rna_sequence.find('AUG')
-    protein = []
-    i = start
-    while i < len(rna_sequence)-2:
-        codon = rna_sequence[i:i+3]
-        amino_acid = genetic_code[codon]
-        if amino_acid == '*':
-            break
-        i += 3
-        protein.append(amino_acid)
-    return ''.join(protein)
+#    rna_sequence=rna_sequence.upper()
+#    start = rna_sequence.find('AUG')
+#    protein = []
+#    i = start
+#    while i < len(rna_sequence)-2:
+#        codon = rna_sequence[i:i+3]
+#        amino_acid = genetic_code[codon]
+#        if amino_acid == '*':
+#            protein += amino_acid
+#        else:
+#            break
+#    return protein
 
 #    rna_sequence=rna_sequence.upper()
+#    start = rna_sequence.find('AUG')
 #    protein = ""
-#    for i in range(0, len(rna_sequence), 3):
+#    i = start
+#    while i < len(rna_sequence)-2:
+#        for i in range(0, len(rna_sequence)-(3+len(rna_sequence)%3), 3):
+#            codon = rna_sequence[i:i+3]
+#            amino_acid = genetic_code[codon]
+#            if amino_acid == '*':
+#                break
+#        protein += genetic_code[rna_sequence[i:i+3]]
+#    return protein
+
 #        codon = rna_sequence[i: i+3]
 #        amino_acid = genetic_code.get(codon, '*')
 #        if amino_acid != '*':
@@ -151,6 +161,53 @@ def get_all_translations(rna_sequence, genetic_code):
 #        i += 3
 #        peptide.append(a)
 #    return ''.join(peptide)
+
+#    rna_sequence=rna_sequence.upper()
+#    protein = ""
+#    for i in range(0, len(rna_sequence), 3):
+#        codon = rna_sequence[i: i+3]
+#        amino_acid = genetic_code.get(codon, '*')
+#        if amino_acid != '*':
+#            protein += amino_acid
+#        else:
+#            break
+
+#    start_pos = rna_sequence.find('AUG')
+#    proteins = ''
+#    for i in range(start_pos, len(rna_sequence), 3):
+#        codon = rna_sequence[i:i + 3]
+#        if codon in ['UAG', 'UAA', 'UGA'] or len(codon) != 3:
+#            break
+#        else: proteins += genetic_code[codon]
+#    return proteins
+#
+#    while start_pos < len(rna_sequence):
+#        start_codon = rna_sequence[start_pos:start_pos + 3]
+#        if start_codon == 'AUG':
+#            translation = translate(start_pos, rna_sequence, genetic_code)
+#            aa_list.append(translation)
+#        start_pos += 1
+#    return aa_list
+
+    rna_sequence=rna_sequence.upper()
+    start_pos = rna_sequence.find('AUG')
+    protein = ""
+    end = len(rna_sequence) - (len(rna_sequence) %3) - 1
+    for i in range(start_pos, end, 3):
+        codon = rna_sequence[i: i+3]
+        amino_acid = genetic_code.get(codon, '*')
+        if amino_acid == '*':
+            break
+        else: protein += genetic_code[codon]
+    return protein
+
+    while start_pos < len(rna_sequence):
+        start_codon = rna_sequence[start_pos:start_pos + 3]
+        if start_codon == 'AUG':
+            translation = translate(start_pos, rna_sequence, genetic_code)
+            aa_list.append(translation)
+        start_pos += 1
+    return aa_list
 
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
@@ -235,7 +292,26 @@ def get_longest_peptide(rna_sequence, genetic_code):
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+
+#https://github.com/prestevez/dna2proteins/blob/master/dna2proteins.py
+
+    prots_dict = {}
+    for key, value in dictionary.items():
+        poss_protein = []
+        for f in value:
+            poss_protein += (oframe(value[f]))
+            #print key, poss_protein
+            c = 0
+            result = ""
+            for s in poss_protein:
+                if len(s) > c:
+                    result = s
+                    c = len(s)
+                else:
+                    continue
+            prots_dict[key] = result
+
+    return prots_dict
 
 
 if __name__ == '__main__':
