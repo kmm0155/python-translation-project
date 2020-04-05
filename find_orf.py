@@ -44,16 +44,6 @@ def vet_nucleotide_sequence(sequence):
     >>> vet_nucleotide_sequence('') == None
     True
     """
-    rna_pattern = re.compile(rna_pattern_str)
-    dna_pattern = re.compile(dna_pattern_str)
-
-    if rna_pattern.match(sequence):
-        return
-    if dna_pattern.match(sequence):
-        return
-    else:
-        raise Exception("Invalid sequence: {0!r}".format(sequence))
-
     ##########################################################################
     ############################ EDIT CODE BELOW #############################
     # `rna_pattern_str` and `dna_pattern_str` need to be regular expressions
@@ -67,8 +57,8 @@ def vet_nucleotide_sequence(sequence):
     # any valid RNA and DNA sequence strings, respectively (and only strings of
     # RNA and DNA bases).
     # Read the docstring above for additional clues.
-    rna_pattern_str = r'AUCG'
-    dna_pattern_str = r'ATCG'
+    rna_pattern_str = r'^[AUCGaucg]*$'
+    dna_pattern_str = r'^[ATCGatcg]*$'
     ##########################################################################
 
     rna_pattern = re.compile(rna_pattern_str)
@@ -225,7 +215,6 @@ def find_first_orf(sequence,
         return match_object.group()
     return ''
 
-
 def parse_sequence_from_path(path):
     # Try to open the path to read from it, and handle exceptions if they
     # arrise
@@ -250,7 +239,6 @@ def parse_sequence_from_path(path):
         # sequence
         sequence += line.strip()
     return sequence
-
 
 def main():
     import argparse
