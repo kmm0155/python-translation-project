@@ -5,7 +5,7 @@ import re
 
 def vet_nucleotide_sequence(sequence):
     """
-    Return None if `sequence` is a valid RNA or DNA sequence, else raise exception. 
+    Return None if `sequence` is a valid RNA or DNA sequence, else raise exception.
 
     Parameters
     ----------
@@ -44,6 +44,16 @@ def vet_nucleotide_sequence(sequence):
     >>> vet_nucleotide_sequence('') == None
     True
     """
+    rna_pattern = re.compile(rna_pattern_str)
+    dna_pattern = re.compile(dna_pattern_str)
+
+    if rna_pattern.match(sequence):
+        return
+    if dna_pattern.match(sequence):
+        return
+    else:
+        raise Exception("Invalid sequence: {0!r}".format(sequence))
+
     ##########################################################################
     ############################ EDIT CODE BELOW #############################
     # `rna_pattern_str` and `dna_pattern_str` need to be regular expressions
@@ -70,8 +80,6 @@ def vet_nucleotide_sequence(sequence):
         return
     else:
         raise Exception("Invalid sequence: {0!r}".format(sequence))
-
-
 
 def vet_codon(codon):
     """
@@ -128,7 +136,6 @@ def vet_codon(codon):
         return
     else:
         raise Exception("Invalid codon: {0!r}".format(codon))
-
 
 def find_first_orf(sequence,
         start_codons = ['AUG'],
