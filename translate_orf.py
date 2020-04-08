@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
 
 ##READ BEFORE RUNNING
-#when running use python 3 and include a nucleotide sequence after the script name, and
-#amino acid sequence will be printed to standard out when the script is finished and if it has worked properly
+#Include a nucleotide sequence after the script name.
+#Amino acid sequence will be printed to standard out
+#when the script is finished and if it has worked properly.
 
 import sys
 import re
-
 
 def main():
     import argparse
